@@ -81,12 +81,14 @@ MAD2_23f2004634/
 ├── requirements.txt
 └── README.md
 ```
-SnapShots:-
-
+**SnapShots:-**
+Admin Dashboard
 <img width="1919" height="917" alt="image" src="https://github.com/user-attachments/assets/f7a4463d-a4e7-43a6-b661-8f655883b9ce" />
 <img width="1919" height="908" alt="image" src="https://github.com/user-attachments/assets/f6952419-1fa6-4eb1-aad0-9f14c5d6492e" />
 <img width="1919" height="909" alt="image" src="https://github.com/user-attachments/assets/f04c2f6e-09f3-4e13-a4a5-57464dc2a2e1" />
 <img width="1919" height="909" alt="image" src="https://github.com/user-attachments/assets/4e73c286-1ba9-46f2-9b51-b43d120754f4" />
+
+User Dashboard:-
 <img width="1919" height="910" alt="image" src="https://github.com/user-attachments/assets/2164f044-d95e-4be1-8168-deafa49e282d" />
 <img width="1919" height="912" alt="image" src="https://github.com/user-attachments/assets/c98b9872-a801-4d75-81e3-13cb35e56f54" />
 <img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/835e5524-902e-414c-9d45-96bc2576dfbe" />
