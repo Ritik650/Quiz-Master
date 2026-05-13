@@ -27,17 +27,40 @@ def create_app(config_name='development'):
     app = Flask(__name__)
     app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS   
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+    # JWT config — must be in app.config, not module-level variables
+    app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = JWT_ACCESS_TOKEN_EXPIRES
+    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = JWT_REFRESH_TOKEN_EXPIRES
+    app.config['JWT_TOKEN_LOCATION'] = ['headers']
+    app.config['JWT_HEADER_NAME'] = 'Authorization'
+    app.config['JWT_HEADER_TYPE'] = 'Bearer'
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = "ry9812262@gmail.com"
-    app.config['MAIL_PASSWORD'] = "wadvcfdhemabhxhh"
-    app.config['MAIL_DEFAULT_SENDER'] = "ry9812262@gmail.com"
+    app.config['MAIL_USERNAME'] = "xxxxxxxx@gmail.com"
+    app.config['MAIL_PASSWORD'] = "xxxxxxxxxxxx"
+    app.config['MAIL_DEFAULT_SENDER'] = "xxxxxxx@gmail.com"
 
     db.init_app(app)
     jwt = JWTManager(app)
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*", "allow_headers": ["Content-Type", "Authorization"], "expose_headers": ["Authorization"], "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]}})
+
+    # JWT error handlers — print message to help debug
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        print(f"[JWT] Invalid token: {error}")
+        return jsonify({"msg": f"Invalid token: {error}"}), 422
+
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
+        print(f"[JWT] Missing token: {error}")
+        return jsonify({"msg": f"Missing token: {error}"}), 401
+
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        print(f"[JWT] Token expired for user {jwt_payload.get('sub')}")
+        return jsonify({"msg": "Token has expired"}), 401
 
     mail.init_app(app)
     # celery.conf.update(app.config)
@@ -69,7 +92,7 @@ def create_app(config_name='development'):
     @jwt_required()
     def get_profile():
         try:
-            current_user_id = get_jwt_identity()
+            current_user_id = int(get_jwt_identity())
             user = User.query.get(current_user_id)
             
             if not user:

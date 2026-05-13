@@ -448,15 +448,12 @@ export default {
 
 /* Base styles */
 .chapter-management {
-  padding: 2rem;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Header Section */
 .header-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .header-content {

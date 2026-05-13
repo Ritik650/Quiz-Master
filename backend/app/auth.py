@@ -27,7 +27,7 @@ def login():
         db.session.commit()
         
         access_token = create_access_token(
-            identity=user.id,
+            identity=str(user.id),
             additional_claims={'role': user.role}
         )
         
@@ -70,7 +70,7 @@ def register():
 @auth_bp.route('/profile', methods=['GET'])
 @jwt_required()
 def get_profile():
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
     
     if not user:

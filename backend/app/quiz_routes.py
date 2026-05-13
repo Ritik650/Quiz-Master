@@ -22,7 +22,7 @@ def start_quiz(quiz_id):
 @quiz_bp.route('/<int:quiz_id>/submit', methods=['POST'])
 @jwt_required()
 def submit_quiz(quiz_id):
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     quiz = Quiz.query.get_or_404(quiz_id)

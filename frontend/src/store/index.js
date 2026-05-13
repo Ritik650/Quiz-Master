@@ -6,10 +6,16 @@ const API_BASE_URL = 'http://localhost:5000/api/'
 // Configure axios defaults
 axios.defaults.baseURL = API_BASE_URL
 
+// Restore token from localStorage on startup
+const savedToken = localStorage.getItem('token')
+if (savedToken) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`
+}
+
 export default createStore({
     state: {
         user: null,
-        token: localStorage.getItem('token') || null,
+        token: savedToken || null,
         subjects: [],
         quizzes: [],
         currentQuiz: null,
